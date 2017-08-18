@@ -6,12 +6,11 @@ window.onload=function(){
   var wrap=document.querySelector("#wrap");
   var pages=pageGroup.querySelectorAll(".page")
 
-
   var prevBtn=document.querySelector(".prev")
   var nextBtn=document.querySelector(".next")
   var winHeight=document.documentElement.clientHeight
   var curIndex=1;
-
+  var can=document.querySelector("#can")
 
   pageGroup.style.height=wrap.style.height=document.documentElement.clientHeight+"px";
 
@@ -96,6 +95,50 @@ for(var i=0;i<pInfoEles.length;i++){
 
 })
 
+//绘制水波纹
+
+var ctx=can.getContext("2d")
+var waterColor=["#c6cacf","#294970","#4a515a"]
+
+var angle=0;
+
+window.requestAimFrames=(function(){
+  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+        function( callback ){
+        window.setTimeout(callback, 1000 / 60);
+       };
+ })();
+
+ loop();
+
+function loop(){
+
+      ctx.clearRect(0, 0, can.width, can.height)
+      angle++;
+
+    for(var i=0;i<waterColor.length;i++){
+
+        var deg=(angle+i*45)*Math.PI/180
+        var detalLeftH= 20*Math.sin(deg)-20;
+        var detalRightH=50*Math.cos(deg)-10;
+
+        ctx.fillStyle=waterColor[i];
+        ctx.beginPath();
+        ctx.moveTo(0,can.height/2+detalLeftH)
+
+        ctx.bezierCurveTo(can.width/2,can.height/2+detalLeftH-10,
+                          can.width/2,can.height/2+detalLeftH-20,
+                          can.width, can.height/2+detalRightH
+                         )
+        ctx.lineTo(can.width, can.height)
+        ctx.lineTo(0, can.height)
+        ctx.lineTo(0, can.height/2+detalLeftH)
+        ctx.closePath();
+        ctx.fill()
+
+    }
+    requestAnimationFrame(loop)
+}
 
 
 
