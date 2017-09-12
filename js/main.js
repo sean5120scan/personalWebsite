@@ -113,21 +113,20 @@ window.requestAimFrames=(function(){
 
 function loop(){
 
-      ctx.clearRect(0, 0, can.width, can.height)
+      ctx.clearRect(0, 0,can.width, can.height)
       angle++;
 
     for(var i=0;i<waterColor.length;i++){
-
         var deg=(angle+i*45)*Math.PI/180
-        var detalLeftH= 20*Math.sin(deg)-20;
-        var detalRightH=50*Math.cos(deg)-10;
+        var detalLeftH= 20*Math.sin(deg)-50;
+        var detalRightH=70*Math.cos(deg)-10;
 
         ctx.fillStyle=waterColor[i];
         ctx.beginPath();
         ctx.moveTo(0,can.height/2+detalLeftH)
 
-        ctx.bezierCurveTo(can.width/2,can.height/2+detalLeftH-10,
-                          can.width/2,can.height/2+detalLeftH-20,
+        ctx.bezierCurveTo(can.width/2,can.height/2+detalLeftH-20,
+                          can.width/2,can.height/2+detalLeftH-50,
                           can.width, can.height/2+detalRightH
                          )
         ctx.lineTo(can.width, can.height)
@@ -140,7 +139,48 @@ function loop(){
     requestAnimationFrame(loop)
 }
 
+//随机生成小球
+
+var circleCanvas=document.querySelector("#circleCanvas")
+var ctx2=circleCanvas.getContext("2d")
+var w=document.documentElement.clientWidth-20;
+var h=document.documentElement.clientHeight-40;
+circleCanvas.style.height=document.documentElement.clientHeight+"px";
+
+var arr=[];
+
+setInterval(function(){
+  ctx2.clearRect(0,0,w,h)
+
+  for(var i=0;i<arr.length;i++){
+
+      arr[i].r+=0.3;
+      arr[i].colora-=0.02;
+      if(arr[i].colora<=0){
+        arr.splice(i,1)
+      }
+
+      ctx2.beginPath();
+      ctx2.arc(arr[i].x,arr[i].y,arr[i].r,0,2*Math.PI)
+      ctx2.fillStyle="rgba("+arr[i].colorr+","+arr[i].colorg+","+arr[i].colorb+","+arr[i].colora+")";
+      ctx2.fill()
+      ctx2.closePath();
+  }
+
+},1000/60)
 
 
+setInterval(function(){
 
+arr.push({
+    x:parseInt(w*Math.random()),
+    y:parseInt(h*Math.random()),
+    r:5,
+    colorr:parseInt(255*Math.random()),
+    colorg:parseInt(255*Math.random()),
+    colorb:parseInt(255*Math.random()),
+    colora:1
+})
+
+},60)
 }
