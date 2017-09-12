@@ -33,7 +33,7 @@ a.next{top:350px;}
   100%{box-shadow:0 0 0 0}
 }
 /*图标导航*/
-#page1 .iconWrap{width:580px;height:120px;margin:170px auto 0 460px;}
+#page1 .iconWrap{width:480px;height:120px;margin:170px auto 0 auto;}
 #page1 .iconWrap ul{width:100%}
 #page1 .iconWrap ul li{width:120px;height:80px;float:left;background:#ccc;transition:0.2s ease-in }
 #page1 .iconWrap ul li a{display: inline-block;width:150px;height:80px;}
